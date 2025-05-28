@@ -9,6 +9,8 @@ from deepface import DeepFace
 from ultralytics import YOLO
 from deep_sort_realtime.deepsort_tracker import DeepSort
 from datetime import datetime
+from huggingface_hub import hf_hub_download
+from ultralytics import YOLO
 import plotly.express as px
 
 # ✅ Initialize session state
@@ -28,8 +30,10 @@ st.sidebar.header("📂 Upload Video")
 uploaded_video = st.sidebar.file_uploader("Upload Classroom Video", type=["mp4", "avi", "mov"])
 
 # ✅ Model Load (Fixed inside code)
-MODEL_PATH = "best.pt"  # Change to your model path
-model = YOLO(MODEL_PATH)
+model_path = hf_hub_download(repo_id="Vahith1/yolov9-engagement", filename="best.pt")
+
+# Load the YOLOv9 model
+model = YOLO(model_path)
 
 # ✅ DeepSORT Tracker
 tracker = DeepSort(max_age=70, n_init=2, nms_max_overlap=0.5, max_cosine_distance=0.4)
